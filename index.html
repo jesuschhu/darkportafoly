@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jesús Ángel — Guardian of the Digital Realm</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+  <style>
+    :root {
+      --obsidian: #0a0a0f;
+      --void: #050508;
+      --ember: #c0392b;
+      --ember-dark: #8b1a1a;
+      --ember-glow: #e74c3c;
+      --ash: #1a1a2e;
+      --ash-light: #16213e;
+      --rune: #7f5af0;
+      --rune-light: #a78bfa;
+      --bone: #e8dcc8;
+      --bone-dim: #b8a898;
+      --bone-faint: #6b5e4e;
+      --gold: #d4a843;
+      --gold-dim: #8a6b22;
+      --silver: #c0c0d0;
+      --mist: #1e1e3a;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--void);
+      color: var(--bone);
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Noise texture overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .pixel { font-family: 'Press Start 2P', monospace; }
+    .vt { font-family: 'VT323', monospace; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bg-rune {
+      position: absolute;
+      font-family: 'VT323', monospace;
+      color: rgba(127, 90, 240, 0.06);
+      font-size: clamp(14px, 2vw, 22px);
+      pointer-events: none;
+      animation: floatRune linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes floatRune {
+      0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+      5% { opacity: 1; }
+      95% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .blood-line {
+      width: 100%;
+      max-width: 600px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--ember), transparent);
+      margin: 1.5rem auto;
+      position: relative;
+    }
+    .blood-line::before, .blood-line::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ember);
+      font-size: 10px;
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+    }
+    .blood-line::before { left: 0; content: '\f520'; }
+    .blood-line::after { right: 0; content: '\f520'; }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(14px, 3vw, 28px);
+      color: var(--bone);
+      line-height: 1.8;
+      text-shadow:
+        0 0 20px rgba(192, 57, 43, 0.6),
+        0 0 40px rgba(192, 57, 43, 0.3),
+        2px 2px 0px #000;
+      animation: titleFlicker 8s ease-in-out infinite;
+      letter-spacing: 2px;
+    }
+
+    @keyframes titleFlicker {
+      0%, 100% { text-shadow: 0 0 20px rgba(192,57,43,0.6), 0 0 40px rgba(192,57,43,0.3), 2px 2px 0 #000; }
+      48% { text-shadow: 0 0 20px rgba(192,57,43,0.6), 0 0 40px rgba(192,57,43,0.3), 2px 2px 0 #000; }
+      50% { text-shadow: 0 0 5px rgba(192,57,43,0.3), 2px 2px 0 #000; opacity: 0.9; }
+      52% { text-shadow: 0 0 20px rgba(192,57,43,0.6), 0 0 40px rgba(192,57,43,0.3), 2px 2px 0 #000; }
+    }
+
+    .hero-subtitle {
+      font-family: 'VT323', monospace;
+      font-size: clamp(24px, 4vw, 40px);
+      color: var(--bone-dim);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .hero-role {
+      font-family: 'VT323', monospace;
+      font-size: clamp(18px, 3vw, 28px);
+      color: var(--rune-light);
+      letter-spacing: 6px;
+      margin-top: 0.5rem;
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 12px;
+      height: 22px;
+      background: var(--ember);
+      margin-left: 4px;
+      vertical-align: middle;
+      animation: blink 1.2s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: var(--bone-faint);
+      letter-spacing: 3px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint i { margin: 0 0.5rem; }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(5, 5, 8, 0.85);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(192, 57, 43, 0.3);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--ember);
+      text-decoration: none;
+      text-shadow: 0 0 10px rgba(192,57,43,0.5);
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-brand i { font-size: 14px; }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: color 0.15s ease-out;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-links a i {
+      font-size: 14px;
+      color: var(--ember);
+      opacity: 0;
+      transition: opacity 0.15s ease-out;
+    }
+
+    .nav-links a:hover { color: var(--bone); }
+    .nav-links a:hover i { opacity: 1; }
+
+    .nav-toggle {
+      display: none;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--ember);
+      background: none;
+      border: 1px solid rgba(192,57,43,0.4);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+    }
+
+    .nav-mobile {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(5,5,8,0.95);
+      border-bottom: 1px solid rgba(192,57,43,0.3);
+      padding: 1rem 2rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .nav-mobile a {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      color: var(--bone-dim);
+      text-decoration: none;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-mobile a i { color: var(--ember); font-size: 14px; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-mobile.active { display: flex; }
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(11px, 2vw, 16px);
+      color: var(--ember);
+      letter-spacing: 3px;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 12px rgba(192,57,43,0.4);
+    }
+
+    .section-subtitle {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      color: var(--bone-faint);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-subtitle i { color: var(--ember); font-size: 18px; }
+
+    /* ── CORNERS ── */
+    .corner {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--ember);
+      border-style: solid;
+    }
+    .corner-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .corner-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    /* ── ABOUT ── */
+    .about-box {
+      border: 1px solid rgba(192, 57, 43, 0.3);
+      background: rgba(26, 26, 46, 0.5);
+      padding: 2rem;
+      position: relative;
+    }
+
+    .about-box::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px; right: -1px; bottom: -1px;
+      border: 1px solid rgba(127, 90, 240, 0.1);
+      pointer-events: none;
+    }
+
+    .about-text {
+      font-family: 'VT323', monospace;
+      font-size: 24px;
+      color: var(--bone-dim);
+      line-height: 1.7;
+    }
+
+    .highlight { color: var(--gold); text-shadow: 0 0 8px rgba(212, 168, 67, 0.3); }
+    .highlight-rune { color: var(--rune-light); text-shadow: 0 0 8px rgba(167, 139, 250, 0.3); }
+
+    /* ── STAT BARS ── */
+    .pixel-sep {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1.5rem 0 1rem;
+      color: rgba(192,57,43,0.4);
+      font-size: 12px;
+      font-family: 'VT323', monospace;
+    }
+    .pixel-sep::before, .pixel-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(192,57,43,0.2);
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+    }
+    .stat-label {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      color: var(--bone-dim);
+      width: 160px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stat-label i { font-size: 14px; color: var(--ember); }
+    .stat-bar {
+      flex: 1;
+      height: 8px;
+      background: rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ember-dark), var(--rune));
+      transition: width 1.2s var(--ease-out);
+    }
+    .stat-val {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      color: var(--bone-faint);
+      width: 40px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── ARCANA / SKILLS ── */
+    .arcana-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .arcana-card {
+      border: 1px solid rgba(192, 57, 43, 0.25);
+      background: rgba(10, 10, 15, 0.8);
+      padding: 1.5rem;
+      position: relative;
+      transition: border-color 0.2s ease-out, transform 0.2s ease-out;
+      cursor: default;
+    }
+
+    .arcana-card:hover {
+      border-color: rgba(192, 57, 43, 0.6);
+      transform: translateY(-3px);
+    }
+
+    .arcana-card:hover .arcana-icon { color: var(--ember-glow); text-shadow: 0 0 16px var(--ember-glow); }
+
+    .arcana-icon {
+      font-size: 28px;
+      color: var(--bone-faint);
+      margin-bottom: 0.75rem;
+      display: block;
+      transition: all 0.2s ease-out;
+    }
+
+    .arcana-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--bone);
+      letter-spacing: 1px;
+      margin-bottom: 0.75rem;
+      line-height: 1.8;
+    }
+
+    .arcana-desc {
+      font-family: 'VT323', monospace;
+      font-size: 20px;
+      color: var(--bone-faint);
+      line-height: 1.5;
+    }
+
+    .xp-bar-wrap {
+      margin-top: 0.75rem;
+      background: rgba(255,255,255,0.05);
+      height: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--ember-dark), var(--ember-glow));
+      transition: width 1s var(--ease-out);
+      position: relative;
+    }
+
+    .xp-bar-fill::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: white;
+      opacity: 0.6;
+      animation: xpPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes xpPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.1; } }
+
+    /* ── RELICS / PROJECTS ── */
+    .relic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .relic-card {
+      border: 1px solid rgba(127, 90, 240, 0.2);
+      background: rgba(26, 26, 46, 0.4);
+      padding: 1.75rem;
+      position: relative;
+      transition: border-color 0.2s ease-out, background 0.2s ease-out;
+    }
+
+    .relic-card:hover {
+      border-color: rgba(127, 90, 240, 0.5);
+      background: rgba(26, 26, 46, 0.7);
+    }
+
+    .relic-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .relic-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--rune-light);
+      letter-spacing: 1px;
+      line-height: 1.8;
+      text-shadow: 0 0 8px rgba(167,139,250,0.3);
+    }
+
+    .relic-tier {
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: var(--gold);
+      background: rgba(212, 168, 67, 0.1);
+      border: 1px solid rgba(212, 168, 67, 0.3);
+      padding: 2px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .relic-tier i { font-size: 12px; }
+
+    .relic-desc {
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      color: var(--bone-dim);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .relic-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: var(--bone-faint);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1px 10px;
+      letter-spacing: 1px;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      border: 1px solid rgba(192, 57, 43, 0.2);
+      background: rgba(10, 10, 15, 0.6);
+      text-decoration: none;
+      color: var(--bone-dim);
+      transition: border-color 0.2s, color 0.2s, transform 0.2s var(--ease-out);
+      font-family: 'VT323', monospace;
+      font-size: 22px;
+      letter-spacing: 2px;
+    }
+
+    .contact-link:hover {
+      border-color: rgba(192, 57, 43, 0.6);
+      color: var(--bone);
+      transform: translateY(-2px);
+    }
+
+    .contact-link .link-icon {
+      font-size: 18px;
+      width: 24px;
+      text-align: center;
+      color: var(--ember);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid rgba(192, 57, 43, 0.2);
+      padding: 2rem;
+      text-align: center;
+      font-family: 'VT323', monospace;
+      font-size: 18px;
+      color: var(--bone-faint);
+      letter-spacing: 2px;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-ember {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--ember-glow);
+      background: rgba(192, 57, 43, 0.15);
+      border: 1px solid rgba(192, 57, 43, 0.4);
+      padding: 1rem 2rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s ease-out;
+      cursor: pointer;
+    }
+
+    .btn-ember:hover {
+      background: rgba(192, 57, 43, 0.3);
+      border-color: var(--ember-glow);
+      box-shadow: 0 0 20px rgba(192, 57, 43, 0.3);
+    }
+
+    .btn-rune {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--rune-light);
+      background: rgba(127, 90, 240, 0.1);
+      border: 1px solid rgba(127, 90, 240, 0.3);
+      padding: 1rem 2rem;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.2s ease-out;
+      cursor: pointer;
+    }
+
+    .btn-rune:hover {
+      background: rgba(127, 90, 240, 0.2);
+      border-color: var(--rune-light);
+      box-shadow: 0 0 20px rgba(127, 90, 240, 0.2);
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    /* ── GIFT WIDGET ── */
+    .gift-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 90;
+      animation: giftFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes giftFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .gift-box {
+      position: relative;
+      width: 180px;
+      background: rgba(10, 10, 15, 0.95);
+      border: 1px solid rgba(192, 57, 43, 0.4);
+      padding: 0.5rem;
+      backdrop-filter: blur(4px);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .gift-box:hover {
+      border-color: rgba(192, 57, 43, 0.8);
+      box-shadow: 0 0 24px rgba(192, 57, 43, 0.25), 0 0 48px rgba(127, 90, 240, 0.1);
+    }
+
+    .gift-box .corner {
+      width: 10px;
+      height: 10px;
+      border-color: var(--ember);
+    }
+
+    .gift-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.25rem 0.5rem;
+      border-bottom: 1px solid rgba(192, 57, 43, 0.2);
+      margin-bottom: 0.5rem;
+    }
+
+    .gift-pulse {
+      color: var(--ember-glow);
+      font-size: 12px;
+      animation: giftPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes giftPulse {
+      0%, 100% { opacity: 1; transform: scale(1); text-shadow: 0 0 4px var(--ember-glow); }
+      50% { opacity: 0.4; transform: scale(0.85); text-shadow: 0 0 0 transparent; }
+    }
+
+    .gift-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--ember);
+      letter-spacing: 1px;
+    }
+
+    .gift-link {
+      display: block;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(127, 90, 240, 0.15);
+      transition: border-color 0.2s;
+    }
+
+    .gift-link:hover {
+      border-color: rgba(127, 90, 240, 0.5);
+    }
+
+    .gift-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: contrast(1.1) saturate(0.9);
+      transition: filter 0.3s, transform 0.3s;
+    }
+
+    .gift-link:hover .gift-img {
+      filter: contrast(1.2) saturate(1.1);
+      transform: scale(1.03);
+    }
+
+    .gift-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 5, 8, 0.6);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .gift-link:hover .gift-overlay {
+      opacity: 1;
+    }
+
+    .gift-overlay i {
+      color: var(--bone);
+      font-size: 18px;
+    }
+
+    @media (max-width: 768px) {
+      .gift-widget {
+        bottom: 1rem;
+        right: 1rem;
+      }
+      .gift-box {
+        width: 140px;
+      }
+      .gift-label {
+        font-size: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#hero"><i class="fa-solid fa-skull"></i> Mr puchito</a>
+  <ul class="nav-links">
+    <li><a href="#about"><i class="fa-solid fa-book-open"></i> Lore</a></li>
+    <li><a href="#arcana"><i class="fa-solid fa-wand-sparkles"></i> Arcana</a></li>
+    <li><a href="#relics"><i class="fa-solid fa-gem"></i> Relics</a></li>
+    <li><a href="#contact"><i class="fa-solid fa-crow"></i> Summon</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('navMobile').classList.toggle('active')">MENU</button>
+  <div id="navMobile" class="nav-mobile">
+    <a href="#about" onclick="document.getElementById('navMobile').classList.remove('active')"><i class="fa-solid fa-book-open"></i> Lore</a>
+    <a href="#arcana" onclick="document.getElementById('navMobile').classList.remove('active')"><i class="fa-solid fa-wand-sparkles"></i> Arcana</a>
+    <a href="#relics" onclick="document.getElementById('navMobile').classList.remove('active')"><i class="fa-solid fa-gem"></i> Relics</a>
+    <a href="#contact" onclick="document.getElementById('navMobile').classList.remove('active')"><i class="fa-solid fa-crow"></i> Summon</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div id="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-role"><i class="fa-solid fa-dungeon"></i> GUARDIAN OF THE DIGITAL REALM <i class="fa-solid fa-dungeon"></i></p>
+    <div class="blood-line"></div>
+    <h1 class="hero-title">JESÚS ÁNGEL<br/>CHÁVEZ HUAMÁN</h1>
+    <div class="blood-line"></div>
+    <p class="hero-subtitle">Cloud Sentinel · Shadow Architect<span class="cursor-blink"></span></p>
+    <br/>
+    <p style="font-family:'VT323',monospace; font-size:22px; color:var(--bone-faint); letter-spacing:4px; text-transform:uppercase;">
+      <i class="fa-solid fa-location-dot" style="color:var(--ember); margin-right:0.5rem;"></i>Huaraz, Ancash — Perú
+    </p>
+    <div class="hero-buttons">
+      <a href="#relics" class="btn-ember"><i class="fa-solid fa-scroll"></i> VIEW RELICS</a>
+      <a href="#contact" class="btn-rune"><i class="fa-solid fa-crow"></i> SUMMON</a>
+    </div>
+  </div>
+  <div class="scroll-hint"><i class="fa-solid fa-chevron-down"></i> DESCEND <i class="fa-solid fa-chevron-down"></i></div>
+</div>
+
+<!-- LORE / ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-title">// CHAPTER I</p>
+    <p class="section-subtitle"><i class="fa-solid fa-khanda"></i> The Lore</p>
+    <div class="about-box">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+      <p class="about-text">
+        Forged in the highlands of <span class="highlight">Huaraz</span>, at the feet of the <span class="highlight">Cordillera Blanca</span>. 
+        A final-year <span class="highlight-rune">Systems Engineering</span> student who chose the path of the <span class="highlight">Cloud Sentinel</span> 
+        — defending digital kingdoms from shadow and breach.
+      </p>
+      <br/>
+      <p class="about-text">
+        Founder of <span class="highlight">CibersecUNASAM</span>, the most active cybersecurity guild in Ancash. 
+        Commander of the <span class="highlight-rune">Cloud & Cybersecurity Wing</span> at UNASAM's Innovation Hub. 
+        Speaker at <span class="highlight">AWS User Groups</span>, <span class="highlight">IEEE ComSoc</span>, and more.
+      </p>
+      <br/>
+      <p class="about-text">
+        When the torches are low and the servers hum in silence — this is where the real work is done.
+      </p>
+      <div class="pixel-sep"><i class="fa-solid fa-shield-halved"></i> COMBAT STATS <i class="fa-solid fa-shield-halved"></i></div>
+      <div class="stat-row"><span class="stat-label"><i class="fa-solid fa-cloud"></i> Cloud Sec</span><div class="stat-bar"><div class="stat-fill" style="width:90%"></div></div><span class="stat-val">90</span></div>
+      <div class="stat-row"><span class="stat-label"><i class="fa-brands fa-aws"></i> AWS</span><div class="stat-bar"><div class="stat-fill" style="width:88%"></div></div><span class="stat-val">88</span></div>
+      <div class="stat-row"><span class="stat-label"><i class="fa-solid fa-network-wired"></i> Networking</span><div class="stat-bar"><div class="stat-fill" style="width:74%"></div></div><span class="stat-val">74</span></div>
+      <div class="stat-row"><span class="stat-label"><i class="fa-solid fa-eye"></i> SIEM/Wazuh</span><div class="stat-bar"><div class="stat-fill" style="width:78%"></div></div><span class="stat-val">78</span></div>
+      <div class="stat-row"><span class="stat-label"><i class="fa-solid fa-chess-king"></i> Leadership</span><div class="stat-bar"><div class="stat-fill" style="width:92%"></div></div><span class="stat-val">92</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCANA / SKILLS -->
+<section id="arcana">
+  <div class="reveal">
+    <p class="section-title">// CHAPTER II</p>
+    <p class="section-subtitle"><i class="fa-solid fa-wand-sparkles"></i> Arcana & Spells</p>
+    <div class="arcana-grid">
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-cloud arcana-icon"></i>
+        <p class="arcana-name">CLOUD<br/>SORCERY</p>
+        <p class="arcana-desc">AWS, IAM, VPC, GuardDuty, CloudTrail, CloudWatch, Bedrock.</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:90%"></div></div>
+      </div>
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-shield-halved arcana-icon"></i>
+        <p class="arcana-name">SHIELD<br/>MAGIC</p>
+        <p class="arcana-desc">SIEM, Wazuh, threat detection, security architecture, Zero Trust.</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:82%"></div></div>
+      </div>
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-bolt arcana-icon"></i>
+        <p class="arcana-name">RUNE<br/>SCRIPTING</p>
+        <p class="arcana-desc">FastAPI, Python, AWS Lambda, Bedrock API, MediaPipe.</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:65%"></div></div>
+      </div>
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-globe arcana-icon"></i>
+        <p class="arcana-name">NETWORK<br/>DIVINATION</p>
+        <p class="arcana-desc">Cisco, Fortinet, Aviatrix ACE Multicloud, networking fundamentals.</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:74%"></div></div>
+      </div>
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-eye arcana-icon"></i>
+        <p class="arcana-name">ANCIENT<br/>SCROLLS</p>
+        <p class="arcana-desc">eJPT, JWAP Tester (60/60), AWS Academy Security (99.17%).</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:88%"></div></div>
+      </div>
+
+      <div class="arcana-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <i class="fa-solid fa-chess-rook arcana-icon"></i>
+        <p class="arcana-name">GUILD<br/>COMMAND</p>
+        <p class="arcana-desc">Founded CibersecUNASAM. Speaker at AWS, IEEE ComSoc, UPC.</p>
+        <div class="xp-bar-wrap"><div class="xp-bar-fill" style="width:93%"></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RELICS / PROJECTS -->
+<section id="relics">
+  <div class="reveal">
+    <p class="section-title">// CHAPTER III</p>
+    <p class="section-subtitle"><i class="fa-solid fa-gem"></i> Relics & Artifacts</p>
+    <div class="relic-list">
+
+      <div class="relic-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <div class="relic-header">
+          <p class="relic-name">UNASAM EVALUADOR</p>
+          <span class="relic-tier"><i class="fa-solid fa-crown"></i> LEGENDARY</span>
+        </div>
+        <p class="relic-desc">
+          A living artifact — FastAPI + AWS Bedrock research document evaluator deployed in production 
+          for UNASAM's VRI. Processes academic scrolls through AI judgment, nested subsection evaluation, 
+          dual-environment Git rituals.
+        </p>
+        <div class="relic-tags">
+          <span class="tag">FastAPI</span>
+          <span class="tag">AWS Bedrock</span>
+          <span class="tag">EC2</span>
+          <span class="tag">MySQL</span>
+          <span class="tag">GitHub</span>
+        </div>
+      </div>
+
+      <div class="relic-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <div class="relic-header">
+          <p class="relic-name">WAZUH SIEM CITADEL</p>
+          <span class="relic-tier"><i class="fa-solid fa-star"></i> EPIC</span>
+        </div>
+        <p class="relic-desc">
+          A fortress of detection. Wazuh SIEM deployed on AWS EC2 as portfolio battleground — monitoring 
+          threats, generating alerts, and capturing the chaos in a LinkedIn video series.
+        </p>
+        <div class="relic-tags">
+          <span class="tag">Wazuh</span>
+          <span class="tag">AWS EC2</span>
+          <span class="tag">SIEM</span>
+          <span class="tag">Amazon Linux</span>
+        </div>
+      </div>
+
+      <div class="relic-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <div class="relic-header">
+          <p class="relic-name">GESTURAL EXPLORER<br/>CORDILLERA BLANCA</p>
+          <span class="relic-tier"><i class="fa-solid fa-gem"></i> RARE</span>
+        </div>
+        <p class="relic-desc">
+          A gesture-controlled kiosk that reads the hand of the traveler and reveals the peaks of Ancash. 
+          Three-screen architecture, dark glassmorphism, OpenCV vision runes.
+        </p>
+        <div class="relic-tags">
+          <span class="tag">Python</span>
+          <span class="tag">OpenCV</span>
+          <span class="tag">MediaPipe</span>
+          <span class="tag">Pillow</span>
+        </div>
+      </div>
+
+      <div class="relic-card">
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+        <div class="relic-header">
+          <p class="relic-name">SECURE VPC ARCHITECTURE</p>
+          <span class="relic-tier"><i class="fa-solid fa-gem"></i> RARE</span>
+        </div>
+        <p class="relic-desc">
+          An impenetrable AWS fortress — layered VPC design with IAM least privilege, KMS encryption, 
+          GuardDuty wards, and CloudTrail watchers that see all.
+        </p>
+        <div class="relic-tags">
+          <span class="tag">AWS VPC</span>
+          <span class="tag">IAM</span>
+          <span class="tag">KMS</span>
+          <span class="tag">GuardDuty</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / SUMMON -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-title">// CHAPTER IV</p>
+    <p class="section-subtitle"><i class="fa-solid fa-crow"></i> Summon The Guardian</p>
+    <p style="font-family:'VT323',monospace; font-size:22px; color:var(--bone-dim); margin-bottom:2rem; letter-spacing:2px;">
+      Speak the words. Send the raven. The guardian answers.
+    </p>
+    <div class="contact-grid">
+      <a class="contact-link" href="https://linkedin.com/in/jesuschhu" target="_blank">
+        <span class="link-icon"><i class="fa-brands fa-linkedin"></i></span>
+        <span>LinkedIn</span>
+      </a>
+      <a class="contact-link" href="https://github.com/jesuschhu" target="_blank">
+        <span class="link-icon"><i class="fa-brands fa-github"></i></span>
+        <span>GitHub</span>
+      </a>
+      <a class="contact-link" href="mailto:jesusachhu@gmail.com">
+        <span class="link-icon"><i class="fa-solid fa-envelope"></i></span>
+        <span>Raven Mail</span>
+      </a>
+      <a class="contact-link" href="#hero">
+        <span class="link-icon"><i class="fa-solid fa-arrow-up"></i></span>
+        <span>Return to Top</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><i class="fa-solid fa-skull" style="color:var(--ember);"></i> JESÚS ÁNGEL CHÁVEZ HUAMÁN <i class="fa-solid fa-skull" style="color:var(--ember);"></i></p>
+  <p style="margin-top:0.5rem; font-size:16px;">HUARAZ · ANCASH · PERÚ · 2026</p>
+  <p style="margin-top:0.5rem; font-size:15px; color:rgba(107,94,78,0.6);">
+    forged in the highlands. hardened by the cloud. <i class="fa-solid fa-code"></i>
+  </p>
+</footer>
+
+<!-- GIFT WIDGET -->
+<div id="giftWidget" class="gift-widget">
+  <div class="gift-box">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+    <div class="gift-header">
+      <i class="fa-solid fa-tower-broadcast gift-pulse"></i>
+      <span class="gift-label">LIVE RITUAL</span>
+    </div>
+    <a href="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2YydmhtdTQ5MjU5cWp3dnExang0MHpnZTlxNWMxd2pwNDQxYzdsOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JeN6aDuZBExGC1MPXX/giphy.gif" target="_blank" class="gift-link">
+      <img 
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2YydmhtdTQ5MjU5cWp3dnExang0MHpnZTlxNWMxd2pwNDQxYzdsOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/JeN6aDuZBExGC1MPXX/giphy.gif" 
+        alt="Dark Fantasy Ritual" 
+        class="gift-img"
+        loading="lazy"
+      />
+      <div class="gift-overlay">
+        <i class="fa-solid fa-up-right-from-square"></i>
+      </div>
+    </a>
+  </div>
+</div>
+
+<script>
+  // Floating background runes
+  const runes = ['∴ ARCANUM ∴', '☠ VOID ☠', '◈ CLOUD ◈', '⚔ SECURUS ⚔', '▓ AWS ▓', '✦ GUARDIAN ✦', '⚡ NETWORK ⚡', '◆ RUNE ◆', '░ SHADOW ░', '∞ BEDROCK ∞', '⚗ CIPHER ⚗', '☁ CLOUD ☁', '◈ FANTASY ◈', '⚔ DARK ⚔', '✦ REALM ✦'];
+  const bg = document.getElementById('hero-bg');
+
+  function spawnRune() {
+    const el = document.createElement('div');
+    el.className = 'bg-rune';
+    el.textContent = runes[Math.floor(Math.random() * runes.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (14 + Math.random() * 14) + 'px';
+    const dur = 18 + Math.random() * 20;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = -(Math.random() * dur) + 's';
+    bg.appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000);
+  }
+
+  for (let i = 0; i < 18; i++) spawnRune();
+  setInterval(spawnRune, 2200);
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Animate XP bars on scroll
+  const xpBars = document.querySelectorAll('.xp-bar-fill, .stat-fill');
+  const xpObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const target = e.target.style.width;
+        e.target.style.width = '0%';
+        requestAnimationFrame(() => {
+          setTimeout(() => { e.target.style.width = target; }, 100);
+        });
+        xpObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  xpBars.forEach(b => xpObs.observe(b));
+</script>
+</body>
+</html>
